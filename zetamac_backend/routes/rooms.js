@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const supabase = require('supabase_client.js')
+const supabase = require('../supabase_client.js')
 
 // GET request to retreive rooms
 router.get('/rooms', async (req, res) => {

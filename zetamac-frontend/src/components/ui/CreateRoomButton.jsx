@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import socket from "@/client_socket"
 
 function CreateRoomButton() {
 
@@ -26,7 +25,6 @@ function CreateRoomButton() {
     axios.post("http://localhost:3000/rooms", { name: roomName, password: roomPassword})
     // if the room is created successfully, close the dialog
     // if there is an error, show an error message
-    socket.emit("room_created")
   }
 
   return (

@@ -8,6 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function RoomGallery() {
   const [rooms, setRooms] = useState([]);
@@ -26,7 +28,7 @@ function RoomGallery() {
   return (
     <>
       <div className="flex flex-wrap gap-10 w-9/12">
-          {dummyRooms.map((room) => (
+          {rooms.map((room) => (
               <Card key={room.id}>
               <CardHeader>
                   <CardTitle>{room.name}</CardTitle>

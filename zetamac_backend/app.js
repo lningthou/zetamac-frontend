@@ -1,11 +1,14 @@
 const express = require('express');
 const app = express();
 app.use(express.json()); // Middleware to parse JSON bodies
+const WebSocket = require('ws');
+const cors = require('cors');
 
 const roomsRoutes = require('./routes/rooms');
 //const usersRoutes = require('./routes/users');
 
 app.use('/rooms', roomsRoutes);
+app.use(cors());
 
 const wss = new WebSocket.Server({ noServer: true });
 
