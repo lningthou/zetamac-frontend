@@ -10,56 +10,19 @@ import {
 import { Button } from "@/components/ui/button";
 
 function RoomGallery() {
-  const dummyRooms = [
-    {
-      id: "1",
-      name: "Room 1",
-      owner: "User 1",
-      players: ["User 1", "User 2", "User 3"],
-      status: "playing",
-      game: "Zetamac",
-    },
-    {
-      id: "2",
-      name: "Room 2",
-      owner: "User 2",
-      players: ["User 1", "User 2", "User 3"],
-      status: "waiting",
-      game: "Zetamac",
-    },
-    {
-      id: "3",
-      name: "Room 3",
-      owner: "User 3",
-      players: ["User 1", "User 2", "User 3"],
-      status: "waiting",
-      game: "Zetamac",
-    },
-    {
-      id: "4",
-      name: "Room 4",
-      owner: "User 4",
-      players: ["User 1", "User 2", "User 3"],
-      status: "waiting",
-      game: "Zetamac",
-    },
-    {
-      id: "5",
-      name: "Room 5",
-      owner: "User 5",
-      players: ["User 1", "User 2", "User 3"],
-      status: "waiting",
-      game: "Zetamac",
-    },
-    {
-      id: "6",
-      name: "Room 6",
-      owner: "User 6",
-      players: ["User 1", "User 2", "User 3"],
-      status: "waiting",
-      game: "Zetamac",
-    },
-  ];
+  const [rooms, setRooms] = useState([]);
+
+  // useEffect to fetch rooms from backend
+  useEffect (() => {
+    axios.get('http://localhost:3000/rooms')
+    .then((response) => {
+      console.log(response.data);
+      setRooms(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    }, [])});
+
   return (
     <>
       <div className="flex flex-wrap gap-10 w-9/12">
@@ -84,6 +47,6 @@ function RoomGallery() {
       </div>
     </>
   );
-}
+          }
 
 export default RoomGallery;
