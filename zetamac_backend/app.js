@@ -41,26 +41,36 @@ app.put('/add_user', async (req, res) => {
     console.log(req.body)
     const { id, user_id } = req.body;
     // get list of current users form users array in rooms table with given id
-    // append user_id to the list of users for room id
-
-    const { users, user_error } = await supabase
+    const { data: users, error: user_error } = await supabase
         .from('rooms')
         .select('users')
-        .match({'id': '${id}'})
-    console.log(users)
-    users.push(user_id)
-    const { data, error } = await supabase
-        .from('rooms')
-        .update({users: users})
+        .eq('id', id)
+    if (user_error) {
+        console.log(user_error)
+        return res.status(500).send({user_error: "Error adding user to room"})
+    } else {
+        console.log(users)
+    }
 
-  
+    // append user_id to the list of users for room id
+    updated_users = users[0]['users']
+    if (updated_users == null) {
+        updated_users = [user_id]
+    } else {
+        updated_users.push(user_id)
+    }
+    
+    const {data, error} = await supabase
+        .from('rooms')
+        .update({'users': updated_users})
+        .eq('id', id)
     if (error) {
         console.log(error)
         res.status(500).send({error: "Error adding user to room"})
     }
     else {
         console.log(data)
-        res.status(200).send(data)
+        res.status(200).send({data: "Success"})
     }
 });
 
