@@ -11,20 +11,39 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setRoomNameRedux, setRoomPassword } from '@/state/roomSlice';
+import { useSelector } from 'react-redux';
+
 
 function CreateRoomButton({user, socket}) {
   // State for the room name and password
   const [roomName, setRoomName] = useState('');
-  const [password, setPassword] = useState('');
-
+  const [password, setPassword] = useState('')
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+  const roomName1 = useSelector((state) => state.room.room_name);
   // Helper function to create a room
   let createRoom = () => {
     console.log('Create room button clicked!');
-    data = {room_name: roomName, room_password: password, user_id: user.id, username: user.username};
+    let data = {room_name: roomName, room_password: password, user_id: user.id, username: user.username};
+    dispatch(setRoomNameRedux(data.room_name));
+    dispatch(setRoomPassword(data.room_password));
     socket.emit('create-room', data);
     // Add logic to create a room here
+    //send to GamePage
+    console.log(data)
   };
+  
+  useEffect(() => {
+    console.log(roomName1);
+    if (roomName1 != 0) {
+      navigate('./gamepage');
+    }
+  }, [roomName1])
 
   // Handlers for input changes
   const handleRoomNameChange = (e) => {

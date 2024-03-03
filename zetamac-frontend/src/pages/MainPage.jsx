@@ -4,16 +4,12 @@ import { Button } from '@/components/ui/button';
 import CreateRoomButton from '@/components/ui/CreateRoomButton';
 import { User } from 'lucide-react';
 import RoomGallery from '@/components/ui/RoomGallery';
-import { useUser } from '@clerk/clerk-react';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import io from 'socket.io-client';
 import { useState } from 'react';
 
-const socket = io.connect('http://localhost:3000');
 
-function MainPage() {
-    const { isLoaded, user } = useUser();
+function MainPage({user, socket}) {
 
     return (
         <>
