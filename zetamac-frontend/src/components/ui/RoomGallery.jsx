@@ -15,15 +15,16 @@ function RoomGallery() {
   const [rooms, setRooms] = useState([]);
 
   // useEffect to fetch rooms from backend
-  useEffect (() => {
+  useEffect(() => {
     axios.get('http://localhost:3000/rooms')
-    .then((response) => {
-      console.log(response.data);
-      setRooms(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    }, [])});
+      .then((response) => {
+        console.log(response.data);
+        setRooms(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
@@ -31,15 +32,13 @@ function RoomGallery() {
           {rooms.map((room) => (
               <Card key={room.id}>
               <CardHeader>
-                  <CardTitle>{room.name}</CardTitle>
+                  <CardTitle>{room.room_name}</CardTitle>
                   <CardDescription>
-                  {room.owner} is the owner of the room
+                  {room.host_name} is the host of the room
                   </CardDescription>
               </CardHeader>
               <CardContent>
-                  <p>Players: {room.players.join(", ")}</p>
-                  <p>Status: {room.status}</p>
-                  <p>Game: {room.game}</p>
+                  {/* <p>Players: {room.users.join(", ")}</p> */}
               </CardContent>
               <CardFooter>
                   <Button>Join Room</Button>

@@ -4,26 +4,25 @@ const router = express.Router();
 const supabase = require('../supabase_client.js')
 
 // GET request to retreive rooms
-router.get('/rooms', async (req, res) => {
-    console.log("Getting room!")
-    console.log(req.body)
-    const { id } = req.body;
-    // get list of current users form users array in rooms table with given id
+router.get('/', async (req, res) => {
+    console.log("Getting rooms!")
     const { data, error } = await supabase
         .from('rooms')
-        .select('users')
-        .eq('id', id)
-    if (user_error) {
-        console.log(user_error)
-        res.status(500).send({user_error: "Error adding user to room"})
-    } else {
-        console.log(users)
+        .select()
+    if (error) {
+        console.log("Error getting rooms")
+        console.log(error)
+        res.status(500).send({error: "Error getting rooms"})
+    }
+    else {
+        console.log("Got rooms!")
+        console.log(data)
         res.status(200).send(data)
     }
 });
 
 // POST request to create a room 
-router.post('/rooms', async (req, res) => {
+router.post('/', async (req, res) => {
     console.log("Creating room!")
     console.log(req.body)
     const { room_name, room_password, user_id, username } = req.body;
@@ -42,7 +41,7 @@ router.post('/rooms', async (req, res) => {
 });
 
 // PUT request to add a user to a room
-router.put('/rooms', async (req, res) => {
+router.put('/', async (req, res) => {
     console.log("Adding user to room!")
     console.log(req.body)
     const { id, user_id, username } = req.body;
