@@ -19,7 +19,7 @@ function RoomGallery({socket}) {
   useEffect(() => {
     axios.get('http://localhost:3000/rooms')
       .then((response) => {
-        console.log(response.data);
+        console.log("Set rooms to initial data!")
         setRooms(response.data);
       })
       .catch((error) => {
@@ -34,9 +34,14 @@ function RoomGallery({socket}) {
         console.log("Error creating room")
       } else {
         console.log("Room created successfully")
-        setRooms((rooms) => rooms.push(data));
+        console.log(data);
+        console.log(rooms);
+        setRooms((rooms) => [...rooms, data]);
       }
     });
+    return () => {
+      socket.off('room-created');
+    };
   }, [socket])
 
 

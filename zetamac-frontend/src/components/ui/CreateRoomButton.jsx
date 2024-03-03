@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -59,9 +60,11 @@ function CreateRoomButton({user, socket}) {
             <Input id="password" type="password" value={password} onChange={handlePasswordChange} className="col-span-3" />
           </div>
         </div>
+        <DialogClose>
         <DialogFooter>
           <Button type="submit" onClick={createRoom}>Create</Button>
         </DialogFooter>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );
