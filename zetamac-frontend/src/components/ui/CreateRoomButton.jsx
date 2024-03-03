@@ -21,7 +21,8 @@ function CreateRoomButton({user, socket}) {
   // Helper function to create a room
   let createRoom = () => {
     console.log('Create room button clicked!');
-    socket.emit('create-room', {room_name: roomName, room_password: password, host_id: user.id, host_name: user.username});
+    data = {room_name: roomName, room_password: password, user_id: user.id, username: user.username};
+    socket.emit('create-room', data);
     // Add logic to create a room here
   };
 

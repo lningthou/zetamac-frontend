@@ -35,6 +35,7 @@ io.on('connection', (socket) => {
     console.log(`WebSocket connection established with client ${socket.id}`);
 
     // Example event listener
+    // figure out who sent the event and then send them to a room with id equaling room_id
     socket.on('create-room', async (new_data) => {
         console.log('Received data:', new_data);
         
@@ -51,6 +52,7 @@ io.on('connection', (socket) => {
         else {
             console.log(data);
             socket.emit('room-created', data);
+            socket.join(data[0].id);
         }
     });
 
