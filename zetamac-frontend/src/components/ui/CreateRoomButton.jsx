@@ -12,14 +12,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from 'react';
 
-function CreateRoomButton() {
+function CreateRoomButton({user, socket}) {
   // State for the room name and password
   const [roomName, setRoomName] = useState('');
   const [password, setPassword] = useState('');
 
   // Helper function to create a room
   let createRoom = () => {
-    console.log('Creating room with name:', roomName, 'and password:', password);
+    console.log('Create room button clicked!');
+    socket.emit('create-room', {room_name: roomName, room_password: password, host_id: user.id, host_name: user.username});
     // Add logic to create a room here
   };
 

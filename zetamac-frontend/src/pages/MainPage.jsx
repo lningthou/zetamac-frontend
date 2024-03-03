@@ -8,16 +8,12 @@ import { useUser } from '@clerk/clerk-react';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import io from 'socket.io-client';
-  
+import { useState } from 'react';
 
 const socket = io.connect('http://localhost:3000');
 
 function MainPage() {
     const { isLoaded, user } = useUser();
-
-    let sendMessage = () => {
-        socket.emit('send-message', 'Hello from the frontend');
-    }
 
     return (
         <>
@@ -29,12 +25,8 @@ function MainPage() {
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                     Join or create a room to start playing!
         </h1>
-        <RoomGallery/>
-        <CreateRoomButton user={user}/>
-        </div>
-        <div className="flex flex-col items-center w-full">
-            <Input className="w-1/8"placeholder="Message" />
-            <Button>Send WS Message</Button>
+        <RoomGallery socket={socket}/>
+        <CreateRoomButton user={user} socket={socket}/>
         </div>
         </>
     );

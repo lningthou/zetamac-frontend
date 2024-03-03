@@ -3,6 +3,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
+const supabase = require('./supabase_client.js')
 
 // Initialize Express app and create an HTTP server from it
 const app = express();
@@ -34,8 +35,23 @@ io.on('connection', (socket) => {
     console.log(`WebSocket connection established with client ${socket.id}`);
 
     // Example event listener
-    socket.on('message', (message) => {
-        console.log('Received message:', message);
+    socket.on('create-room', async (new_data) => {
+        console.log('Received data:', new_data);
+        
+        // insert data into supabase
+        console.log("Creating room!")
+        const { data, error } = await supabase
+            .from('rooms')
+            .insert({room_name: new_data.room_name, room_password: new_data.room_password, host_id: new_data.host_id, host_name: new_data.host_name})
+            .select()
+        if (error) {
+            console.log(error);
+            socket.emit('room-created', null);
+        }
+        else {
+            console.log(data);
+            socket.emit('room-created', data);
+        }
     });
 
     // Handle disconnection

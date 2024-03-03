@@ -10,8 +10,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { createClient } from '@supabase/supabase-js';
 
-function RoomGallery() {
+function RoomGallery({socket}) {
   const [rooms, setRooms] = useState([]);
 
   // useEffect to fetch rooms from backend
@@ -25,6 +26,19 @@ function RoomGallery() {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    socket.on('room-created', (data) => {
+      console.log('Recieved room-created from WSS:', data);
+      if (!data) {
+        console.log("Error creating room")
+      } else {
+        console.log("Room created successfully")
+        setRooms((rooms) => rooms.push(data));
+      }
+    });
+  }, [socket])
+
 
   return (
     <>
