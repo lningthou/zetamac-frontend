@@ -36,20 +36,20 @@ function RoomGallery({socket}) {
         console.log("Room created successfully")
         console.log(data);
         console.log(rooms);
-        setRooms((rooms) => [...rooms, data]);
+        setRooms((currentRooms) => [...currentRooms, data[0]]);
       }
     });
+    // TODO: Should read up on why this is necessary
     return () => {
       socket.off('room-created');
     };
-  }, [socket])
-
+  }, [socket]);
 
   return (
     <>
-      <div className="flex flex-wrap gap-10 w-9/12">
+      <div className="flex flex-wrap gap-10 w-9/12 items-center justify-center">
           {rooms.map((room) => (
-              <Card key={room.id}>
+              <Card className="w-1/5"key={room.id}>
               <CardHeader>
                   <CardTitle>{room.room_name}</CardTitle>
                   <CardDescription>
